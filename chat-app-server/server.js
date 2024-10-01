@@ -1,16 +1,35 @@
-require('dotenv').config(); // Load environment variables
-
 const http = require('http');
-const app = require('./src/app'); // Import the express app
-const socketService = require('./src/services/socketService'); // Import socket service
+const express = require('express');
+const { Server } = require('socket.io');
+const app = express();
 
-const PORT = process.env.PORT || 3000;
-const server = http.createServer(app); // Create HTTP server
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*", // Allow all origins for now (can be restricted in production)
+    methods: ["GET", "POST"]
+  }
+});
 
-// Initialize WebSocket service
-socketService.init(server);
+io.on('connection', (socket) => {
+  console.log('A user connected:', socket.id);
 
-// Start the server
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  socket.on('chatMessage', (msg) => {
+    /* // Need to create auth and tokens
+    const messageData = {
+      username: user.username,
+      message: msg,
+      timestamp: new Date()
+    }; */
+
+    io.emit('chatMessage', msg); // Broadcast the message to all clients
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
+
+server.listen(3000, () => {
+  console.log('WebSocket server is running on ws://localhost:3000');
 });
