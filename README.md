@@ -1,11 +1,20 @@
-# Chat App Backend
+# Real-time Chat Application
 
-## Setup Instructions
+A real-time chat application built with **Angular**, **Node.js (Express)**, **Socket.IO**, and **WebSocket communication**.
 
-1. Clone the repository and navigate to the project directory.
-2. Install dependencies:
-   ```bash
-   npm install
-3. Start server:
-    ```bash
-    npm start
+## Features
+
+- Real-time messaging using WebSocket (Socket.IO).
+- Interactive UI built with Angular.
+- WebSocket server using Node.js and Express.
+
+## Project Structure
+
+### Server (Node.js with Express)
+
+- **Socket.IO** for real-time WebSocket communication.
+
+### Client (Angular)
+
+- **Standalone Angular components** using **Socket.IO** (socket.io-client).
+- Message input and display components.
